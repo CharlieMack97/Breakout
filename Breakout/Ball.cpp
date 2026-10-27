@@ -1,6 +1,6 @@
 #include "Ball.h"
 #include "GameManager.h" // avoid cicular dependencies
-
+#include "AudioMananger.h"
 Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
     : _window(window), _velocity(velocity), _gameManager(gameManager),
     _timeWithPowerupEffect(0.f), _isFireBall(false), _isAlive(true), _direction({1,1})
@@ -12,6 +12,15 @@ Ball::Ball(sf::RenderWindow* window, float velocity, GameManager* gameManager)
 
 Ball::~Ball()
 {
+}
+
+void Ball::reset()
+{
+    _sprite.setPosition(0, 300);
+    _direction = { 1, 1 };
+    _velocity = VELOCITY;
+    _isFireBall = false;
+    _timeWithPowerupEffect = 0.f;
 }
 
 void Ball::update(float dt)
@@ -84,10 +93,12 @@ void Ball::update(float dt)
     if (_isFireBall) return; // no collisisons when in fireBall mode.
     if (collisionResponse == 1)
     {
+       
         _direction.x *= -1; // Bounce horizontally
     }
     else if (collisionResponse == 2)
     {
+        
         _direction.y *= -1; // Bounce vertically
     }
 }
