@@ -38,6 +38,11 @@ void GameManager::initialize()
 void GameManager::update(float dt)
 {
     _powerupInEffect = _powerupManager->getPowerupInEffect();
+    if(_powerupInEffect.first == POWERUPS::addBall)
+    {
+        addExtraBall();
+    }
+	else
     _ui->updatePowerupText(_powerupInEffect);
     _powerupInEffect.second -= dt;
 	
@@ -100,6 +105,10 @@ void GameManager::update(float dt)
 	float deltaMove = _paddle->getPosition().x - beforeMove;
     _parralaxBG->update(deltaMove, dt);
     _ball->update(dt);
+    for(auto& extraBall : _extraBalls)
+    {
+        extraBall->update(dt);
+	}
     _powerupManager->update(dt);
 }
 
@@ -116,6 +125,10 @@ void GameManager::render()
     _parralaxBG->draw(*_window);
     _paddle->render();
     _ball->render();
+    for (auto& extraBall : _extraBalls)
+    {
+        extraBall->render();
+	}
     _brickManager->render();
     _powerupManager->render();
     _window->draw(_masterText);
@@ -138,9 +151,14 @@ void GameManager::nextLevel()
 	_countdown = 3.0f;
     
 }
-
+void GameManager::addExtraBall()
+{
+	Ball* extraBall = new Ball(_window, 400.0f, this);
+	_extraBalls.push_back(extraBall);
+}
 sf::RenderWindow* GameManager::getWindow() const { return _window; }
 UI* GameManager::getUI() const { return _ui; }
+
 Paddle* GameManager::getPaddle() const { return _paddle; }
 BrickManager* GameManager::getBrickManager() const { return _brickManager; }
 PowerupManager* GameManager::getPowerupManager() const { return _powerupManager; }

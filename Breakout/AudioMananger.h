@@ -19,13 +19,13 @@ class AudioMananger
 	}
 	AudioMananger(const AudioMananger&) = delete;
 public:
-	static AudioMananger& getInstance()
+	static auto getInstance() -> AudioMananger&
 	{
 		static AudioMananger instance;
 		return instance;
 	}
 
-	bool loadSoundBuffer(std::string sound) {
+	auto loadSoundBuffer(std::string sound) -> bool {
 
 		if (_soundBuffers.count(sound)) {
 			return true;
@@ -37,7 +37,7 @@ public:
 		_sounds[sound].setBuffer(_soundBuffers[sound]);
 		return true;
 	}
-	void playSound(const std::string& sound) {
+	auto playSound(const std::string& sound) -> void {
 		/*std::cout << "playSound called: " << sound << '\n';*/
 		if (!loadSoundBuffer(sound)) {
 			std::cout << "  load failed: " << sound << '\n';

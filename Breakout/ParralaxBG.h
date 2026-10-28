@@ -12,7 +12,7 @@ class ParralaxBG
 	};
 	std::list<Layer> _layers;
 public:
-	void addLayer(const std::string& textureFile, float scrollSpeed)
+	auto addLayer(const std::string& textureFile, float scrollSpeed) -> void
 	{
 		Layer& layer = _layers.emplace_back();
 		if (!layer.texture.loadFromFile(textureFile))
@@ -25,9 +25,8 @@ public:
 		layer.sprite.setTexture(layer.texture);
 		layer.factor = scrollSpeed;
 	}
-	void update(float playerMoveX, float dt)
+	auto update(float playerMoveX, float dt) -> void
 	{
-		std::cout << "deltaX: " << playerMoveX << "  offset0: " << _layers.front().offset << '\n';
 		for (auto& layer : _layers)
 		{
 			layer.offset += playerMoveX * layer.factor;
@@ -39,7 +38,7 @@ public:
 			}
 		}
 	}
-	void draw(sf::RenderWindow& window)
+	auto draw(sf::RenderWindow& window) -> void	
 	{
 		const sf::Vector2f size(window.getSize());
 		for (auto& layer : _layers)
