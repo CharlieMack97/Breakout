@@ -27,7 +27,8 @@ void GameManager::initialize()
     _paddle = new Paddle(_window);
     _brickManager = new BrickManager(_window, this);
     _messagingSystem = new MessagingSystem(_window);
-    _ball = new Ball(_window, 400.0f, this); 
+    _ball = new Ball(_window, 400.0f, this,sf::Color::Cyan); 
+	_ball->setPrimary(true);
     _powerupManager = new PowerupManager(_window, _paddle, _ball);
     _ui = new UI(_window, _lives, this);
 	
@@ -147,13 +148,15 @@ void GameManager::nextLevel()
     _levelComplete = false;
     _brickManager->createBricks(5, 10, 80.0f, 30.0f, 5.0f, _level);
     _ball->reset();
+	_extraBalls.clear();
     _paddle->setWidth(1.0f, 0.0f);
 	_countdown = 3.0f;
     
 }
 void GameManager::addExtraBall()
 {
-	Ball* extraBall = new Ball(_window, 400.0f, this);
+	Ball* extraBall = new Ball(_window, 400.0f, this,sf::Color::Magenta);
+	extraBall->setPrimary(false);
 	_extraBalls.push_back(extraBall);
 }
 sf::RenderWindow* GameManager::getWindow() const { return _window; }
